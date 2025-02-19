@@ -2,7 +2,6 @@ import functools
 import itertools
 import warnings
 import skimage
-import skimage.restoration.uft
 import scipy.ndimage
 import numpy as np
 from . import transform
@@ -40,15 +39,14 @@ def window(img):
 def register(img1, img2, sigma, upsample=10):
     img1w = window(whiten(img1, sigma))
     img2w = window(whiten(img2, sigma))
-
     shift = skimage.registration.phase_cross_correlation(
         img1w,
         img2w,
         upsample_factor=upsample,
-        normalization=None
-    )[0]
-
-        # At this point we may have a shift in the wrong quadrant since the FFT
+        normalization=None,
+        return_error=False,
+    )
+    # At this point we may have a shift in the wrong quadrant since the FFT
     # assumes the signal is periodic. We test all four possibilities and return
     # the shift that gives the highest direct correlation (sum of products).
     shape = np.array(img1.shape)

@@ -1334,6 +1334,7 @@ class PyramidWriter:
                 "PhysicalSizeY": pixel_size, "PhysicalSizeYUnit": "\u00b5m",
             },
         }
+        extratags = []
         if self.metadata_list:
             #TODO add significant error handling
             # create Channel entry and fill it
